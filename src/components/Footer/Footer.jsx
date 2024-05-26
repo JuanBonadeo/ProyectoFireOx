@@ -18,7 +18,7 @@ const Footer = () => {
                     <h4><b>Nuestras Redes</b></h4>
                     <div className="redes">
                         <a href='todo'><XIcon /></a>
-                        <a href='https://www.instagram.com/orlandi_inmobiliaria/'><InstagramIcon /></a>
+                        <a href='https://www.instagram.com/fire_ox_/'><InstagramIcon /></a>
                         <a href='todo'><FacebookIcon /></a>
                     </div>
 
@@ -27,15 +27,14 @@ const Footer = () => {
                 <div className="footer3">
                     <h4><b>Links</b></h4>
                     <div className='footerLinks'>
-                        <Link to="/contacto" className="dark" label="Atencion al Cliente">Atencion al Cliente</Link>
-                        <Link className="dark" label="Preguntas Frecuentes">orlandojlorlandi@gmail.com</Link>
+                        <Link to="https://wa.me/5493471588965" className="dark" label="Atencion al Cliente">Atencion al Cliente</Link>
                         <Link className="dark" label="Terminos & Condiciones">Direccion. fitz gerald 454 nogoya</Link>
-                        <Link to="/quienesSomos" className="dark" label="Quienes Somos">Quienes Somos</Link>
+                        <Link to="" className="dark" label="Quienes Somos">Quienes Somos</Link>
                     </div>
                 </div>
 
             </div>
-            <h5>©Orlandi Inmobiliaria Copyright  todos los derechos reservados</h5>
+            <h5>©FireOx Copyright  todos los derechos reservados</h5>
             <h5>Develop by:   <a>JuanBonadeo</a></h5>
 
 
