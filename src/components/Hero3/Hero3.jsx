@@ -2,22 +2,23 @@ import React from 'react';
 import { motion, spring } from 'framer-motion';
 import Button from '../Button/Button';
 import { useEffect, useRef, useState } from 'react';
+import '../Hero2/hero2.css';
 
 
 export const Hero3 = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ContainerRef = useRef(null);
+  const [isVisible1, setIsVisible1] = useState(false);
+  const ContainerRef1 = useRef(null);
   useEffect(() => {
     const handleScroll = () => {
-      const topOffset = ContainerRef.current.offsetTop;
-      const bottomOffset = topOffset + ContainerRef.current.offsetHeight;
+      const topOffset = ContainerRef1.current.offsetTop;
+      const bottomOffset = topOffset + ContainerRef1.current.offsetHeight;
 
       const scrollPosition = window.scrollY + window.innerHeight;
 
       if (scrollPosition > topOffset && scrollPosition < bottomOffset) {
-        setIsVisible(true);
+        setIsVisible1(true);
       } else {
-        setIsVisible(false);
+        setIsVisible1(false);
       }
     };
 
@@ -31,8 +32,8 @@ export const Hero3 = () => {
 
     <motion.div
       className="CombosContainer margintop"
-      initial={{ y: 500, scale: 0 }} animate={isVisible && { y: 0, scale: 1 }} 
-          transition={{ duration: 1, delay: .3, type: "spring" }} ref={ContainerRef}
+      initial={{ y: 500, scale: 0 }} animate={isVisible1 && { y: 0, scale: 1 }} 
+          transition={{ duration: 1, delay: .3, type: "spring" }} ref={ContainerRef1}
     >
       <div className="info">
         <h2>Planchetas para una y dos hornallas</h2>

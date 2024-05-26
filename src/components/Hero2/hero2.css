@@ -45,6 +45,7 @@
         font-size: .8em;
     }
     
+    
 }
 @media screen and (max-width: 480px){
     .CombosContainer{
@@ -66,6 +67,8 @@
         text-align: left;
     }.info h2{
         text-align: center;
+    }.margintop{
+        flex-direction: column-reverse;
     }
     
 }
