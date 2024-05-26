@@ -1,0 +1,11 @@
+.App{
+  margin: 0 auto;
+  padding: 0;
+  background-color: #000000;
+  font-family: 'Source Serif Pro', serif;
+}
+
+.contain{
+  margin-top: 4.9em;
+  background-color: #000000;
+}

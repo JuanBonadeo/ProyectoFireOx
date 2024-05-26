@@ -1,0 +1,70 @@
+.CombosContainer{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    margin: 2em auto;
+    gap: 2em;
+    color: #ffffff;
+}
+.info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+.CombosContainer img{
+    width: 45%;
+    height: 50%;
+}
+.CombosContainer h2{
+    font-size: 2em;
+    text-align: left;
+}
+@media screen and (max-width: 768px){
+    .CombosContainer{
+        width: 90%;
+    }.CombosContainer h2{
+        font-size: 1.5em;
+    }.CombosContainer p{
+        font-size: .8em;
+    }
+    
+}
+@media screen and (max-width: 568px){
+    .CombosContainer{
+        width: 95%;
+        margin: 2em auto;
+    }.info{
+        width: 70%;
+    }
+    .CombosContainer h2{
+        font-size: 1.4em;
+    }.CombosContainer p{
+        font-size: .8em;
+    }
+    
+}
+@media screen and (max-width: 480px){
+    .CombosContainer{
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        gap: 1em;
+        width: 100%;
+    }.CombosContainer img{
+        width: 80%;
+    }
+    .CombosContainer h2{
+        font-size: 1.2em;
+    }.CombosContainer p{
+        font-size: .8em;
+    }
+    .info{
+        width: 90%;
+        text-align: left;
+    }.info h2{
+        text-align: center;
+    }
+    
+}

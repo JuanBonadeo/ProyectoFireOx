@@ -1,0 +1,99 @@
+
+.productCardContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 360px;
+    height: 360px;
+    margin-bottom: 2em;
+    color : #ffffff;
+}
+.imgProduct, .imgProduct2{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    min-height: 360px;
+    cursor: pointer;
+}
+
+.img{
+    transition: all .4s ease-in-out;
+}.img:hover{
+    scale: 1.02;
+    box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.655);
+
+}
+
+
+
+.cardInfo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 3em;
+    padding-top: .3em;
+}
+.namePrice h4{
+    margin: 0 0;
+    font-size: 1em;
+    
+}
+.namePrice{
+    display: flex;
+    flex-direction: column;
+    gap: .3em;
+    padding: .3em;
+}
+.discountedPrice{
+    color: #FF0F00;
+    margin-left: .6em;
+    font-weight: 700;
+}
+.price{
+    text-decoration: line-through;
+}
+.discountBadge{
+    position: absolute;
+    background-color: #FF0F00;
+    color: #fff;
+    padding: .3em;
+    font-size: 1.1em;
+    font-weight: 700;
+    z-index: 22;
+}
+.outOfStock{
+    filter: opacity(.4);
+}.outOfStock:hover{
+    filter: opacity(.5);
+}
+.outOfStockBadge{
+    position: absolute;
+    margin-top: 5.5em;
+    color: #575757;
+    padding: .3em;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 768px) {
+    .productCardContainer{
+        width: 100%;
+        height: 100%;
+    }
+    .imgProduct{
+        min-height: 100%;
+    }
+    .namePrice{
+        margin-top: .3em;
+    }
+    .namePrice h4{
+        font-size: 1.2em;
+    }.namePrice span{
+        font-size: 1em;
+    }
+    
+    
+}

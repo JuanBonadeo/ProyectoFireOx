@@ -1,0 +1,119 @@
+footer{
+    padding: 1em 0;
+    background-color: #b60000;
+    
+}
+.footerContainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: auto;
+    width: 90%;
+    margin: 0 auto;
+}
+.footer1, .footer3{
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .5em;
+    padding: 2em 0;
+    
+}
+.footer1 p{
+    color: #212121;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 1em;
+    text-align: center;
+    width: 80%;
+    margin-top: 1em;
+
+}
+.footer2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    gap: .5em;
+}
+.redes{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5em;
+       
+}
+.redes svg{
+    font-size: 2em;
+    color: #212121;
+    cursor: pointer;
+}.redes svg:hover{
+    scale: 1.1;
+    transition: .3s;
+    color: #000000;
+}
+.footer3 .footerLinks {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    
+}.footer3 div a{
+    color: #212121;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    text-align: center;
+}.footer3 div a:hover{
+    color: #212121;
+    scale: 1.05;
+    transition: .3s;
+}
+footer h5{
+    display: flex;
+    justify-content: center;
+    font-size: .8em;
+    padding-bottom: 1em;
+    color: #212121;
+}
+
+
+@media (max-width: 1200px ){
+    
+    .footer1{
+        height: 17em;
+        border-top: solid 1.5px #b60000;
+        padding-bottom: 1em;
+
+        
+    }
+    .footer1 div {
+        flex-direction: column;
+        align-items: center;
+        gap: 1em;
+    }
+    .footer2{
+        gap: 1em;
+        
+    } 
+    footer h5{
+        font-size: .5em;
+    }
+}
+@media screen and (max-width: 608px){
+    .footerContainer{
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        
+    }
+    
+}
+
+
+
+

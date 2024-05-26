@@ -1,0 +1,16 @@
+.carrito{
+    display: flex;
+    height: 2em;
+    background-color: #ffffff00;
+    border: none;
+    
+}.carrito:hover{
+    scale: 1.1;
+    transition: .3s;
+}
+
+.carrito svg{
+    color: #ffffff;
+    width: 40px;
+    height: 40px;
+}
