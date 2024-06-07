@@ -40,7 +40,7 @@ export const Hero3 = () => {
         <p>
           Planchetas de acero inoxidable, de primera calidad, con un espesor de 3mm. Ideales para cocinar en el hogar, en la parrilla o en el camping.
         </p>
-        <Button label='Encargar' to='/ollas' />
+        <Button label='Encargar' to='/categorias/ollas' />
       </div>
       <img
         src='https://firebasestorage.googleapis.com/v0/b/fireox-eb715.appspot.com/o/banne2..jpeg?alt=media&token=329ac7f7-97a7-412c-b96d-a4e2d3e92941'

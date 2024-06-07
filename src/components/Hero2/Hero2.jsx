@@ -49,7 +49,7 @@ export const Hero2 = () => {
           Encarga ya tu tabla de picadas y cuchillos personalizados para regalar o
           regalarte.
         </p>
-        <Button label="Encargar" to="/tablas&cuchilos" />
+        <Button label="Encargar" to="/categorias/tablas" />
       </div>
     </motion.div>
   );
