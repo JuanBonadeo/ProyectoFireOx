@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 export const Admin = () => {
     const [image1, setImg1] = useState(null);
     const [image2, setImg2] = useState(null);
-    const [category, setCategory] = useState('mates');
+    const [category, setCategory] = useState('quemadores');
     const [nombre, setNombre] = useState('');
     const [imagePreview1, setImagePreview1] = useState('');
     const [imagePreview2, setImagePreview2] = useState('');

@@ -27,7 +27,7 @@ function Header() {
             <Link to="/" className="primary" onClick={closeNavbar}>Inicio</Link>
             <Link to='/categoria/quemadores' className="primary" >Quemadores</Link>
             <Link to="/categoria/fogoneros" className="primary" onClick={closeNavbar}>Fogoneros</Link>
-            <Link to="/categoria/tablas&cuchillos" className="primary" onClick={closeNavbar}>Tablas & Chuccilos</Link>
+            <Link to="/categoria/tablas" className="primary" onClick={closeNavbar}>Tablas & Chuccilos</Link>
             <Link to="/categoria/parrillas" className="primary" onClick={closeNavbar}>Parrillas</Link>
             <Link to="/categoria/braseros" className="primary" onClick={closeNavbar}>Braseros</Link>
             <Link to="/categoria/ollas" className="primary" onClick={closeNavbar}>Cacerolas & Ollas</Link>
