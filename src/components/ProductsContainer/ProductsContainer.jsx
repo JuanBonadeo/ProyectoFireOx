@@ -59,7 +59,6 @@ export default function ProductsContainer() {
     return (
       <>
       <motion.div className='h1Order h1OrderCategory' initial={{opacity: 0, scale: 0}} animate={{opacity:1, scale:1}} transition={{ duration: 2, type:"spring", stiffness: 160, damping: 20}}>
-        <h1>Nuestros {categoriaId}</h1>
         <OrderList handleOrderChange={handleOrderChange}/>
       </motion.div>
       <ProductList products={products} orderBy={orderBy}/>

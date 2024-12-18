@@ -17,8 +17,8 @@ const Cart = () => {
   const handleOnAdd = (id, x) => {
     updateQuantity(id, x)
   }
-  const handleOnChange = (id, x) => {;
-    updateQuantitySelect(id, x);
+  const handleOnChange = (id, x, size) => {;
+    updateQuantitySelect(id, x, size);
   }
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -51,21 +51,21 @@ const Cart = () => {
                             transition={{duration: 1.2, ease: "easeInOut", delay: 0.5, type: "spring"}}
                             
                             
-                            className='productInCart' key={prod.id}>
+                            className='productInCart' key={prod.id + prod.size}>
                                 <div className="imgName">
                                   <Link to={`/producto/${prod.id}`}><img className="" src={prod.img1}></img>  </Link> 
-                                  <Link to={`/producto/${prod.id}`}><h4 className='title'>{prod.nombre}</h4></Link>
+                                  <Link to={`/producto/${prod.id}`}><h4 className='title'>{prod.nombre} - {prod.size}</h4></Link>
                                 </div>
                                 <div className="controls"> 
                                 <QuantityControl className="select"  prod={prod} updateQuantity={handleOnChange} />
                                 <div className="quantityControl">
-                                    <button onClick={() => updateQuantity(prod.id, -1)}>-</button>
+                                    <button onClick={() => updateQuantity(prod.id, -1, prod.size)}>-</button>
                                     <p>{prod.quantity}</p>
-                                    <button onClick={() => updateQuantity(prod.id,+1)}>+</button>
+                                    <button onClick={() => updateQuantity(prod.id,+1, prod.size)}>+</button>
                                 </div>
                                   <p className='price'>{formatearMoneda(prod.precio * prod.quantity)}</p>
                                   <span className='discountedPrice'>{calcularDescuento(prod.precio * prod.quantity, prod.descuento)}</span>
-                                  <DeleteOutlineIcon className='delete' onClick={() => removeItem(prod.id)}></DeleteOutlineIcon>
+                                  <DeleteOutlineIcon className='delete' onClick={() => removeItem(prod.id, prod.size)}></DeleteOutlineIcon>
                                 </div>
                             </motion.div>
                         )

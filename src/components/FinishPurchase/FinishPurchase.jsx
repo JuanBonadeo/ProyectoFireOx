@@ -10,12 +10,13 @@ const FinishPurchase = () => {
         return useContext(CartContext)
     }
     let { cart, total, calcularDescuento, formatearMoneda, clearCart2, descuentoCodigo } = useCart();
-    const precioEnvio = 5000;
-    const precioEnvioGratis = 50000;
+    const precioEnvio = 9000;
+    const precioEnvioGratis = 30000;
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
     const [entrega, setEntrega] = useState('envio');
+    const [pago, setPago] = useState('transferencia')
     total = total - (total * descuentoCodigo);
     let [totalFinal, setTotalFinal] = useState(total);
 
@@ -29,6 +30,17 @@ const FinishPurchase = () => {
             setTotalFinal(total);
         }
     };
+
+    const handlePagoChange = (event) => {
+        const selectedOption = event.target.value;
+        setPago(selectedOption);
+        if (selectedOption === 'transferencia') {
+            setTotalFinal(total * 0.9);
+        } else {
+            setTotalFinal(total);
+        }
+    }
+
    
     
 
@@ -56,7 +68,7 @@ const FinishPurchase = () => {
                 }
                 mensajePedido += 'pedido:\n';
                 cart.forEach((prod) => {
-                    mensajePedido += `*${prod.nombre}*  Cantidad: *${prod.quantity}* Precio: *${calcularDescuento(prod.precio * prod.quantity, prod.descuento)}*\n`;
+                    mensajePedido += `*${prod.nombre} - ${prod.size ? prod.size : ''}*  Cantidad: *${prod.quantity}* Precio: *${calcularDescuento(prod.precio * prod.quantity, prod.descuento)}*\n`;
                 });
                 if (entrega === 'envio' && total >= precioEnvioGratis) {
                     mensajePedido += `\nTotal Con envio gratis: *${formatearMoneda(total)}*`;
@@ -84,7 +96,6 @@ const FinishPurchase = () => {
 
                 // Abrir la ventana de chat
                 window.open(urlWhatsApp, '_blank');
-                window.open(urlWhatsApp, '_blank');
                 clearCart2();
                 const redirectHome = () => {
                     window.location.href = "/#/gracias";
@@ -97,6 +108,7 @@ const FinishPurchase = () => {
     return (
         <div className="containerP">
             <h1>Completa tu Pedido</h1>
+            <p>Tenemos 10% de descuento pagando con transferencia y envio gratis a partir de $30.000</p>
             <form onSubmit={(e) => { e.preventDefault(); buyCart(e); }}>
                 <div className="form">
                     <div className="form-group">
@@ -105,7 +117,7 @@ const FinishPurchase = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor='payment'>Método de Pago:</label>
-                        <select name="payment" id="payment" required>
+                        <select name="payment" id="payment" required value={pago} onChange={handlePagoChange}>
                             <option value="transferencia">Transf. Bancaria</option>
                             <option value="efectivo">Efectivo</option>
                             <option value="tarjeta">Tarjeta</option>
@@ -124,7 +136,7 @@ const FinishPurchase = () => {
                     </div>
                 </div>
                 {descuentoCodigo > 0 && <h4>Descuento por codigo del {descuentoCodigo * 100}%</h4>}
-                <h4>Total: {`${formatearMoneda(total)} ${entrega === 'envio' && total >= precioEnvioGratis ? ' envio gratis' : ''}
+                <h4>Total: {`${formatearMoneda(totalFinal)} ${entrega === 'envio' && total >= precioEnvioGratis ? ' envio gratis' : ''}
                  ${entrega === 'envio' && total < precioEnvioGratis ? '+ ' + formatearMoneda(precioEnvio) + ' de envio' : ''}`}</h4>
                 {entrega === 'envio' && total < precioEnvioGratis && <h5>Envío gratis a partir de {formatearMoneda(precioEnvioGratis)}.</h5>}
                 <button className="Button" type='submit'>Comprar</button>

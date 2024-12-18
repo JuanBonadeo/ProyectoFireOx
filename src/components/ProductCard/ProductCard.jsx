@@ -6,14 +6,20 @@ import { CartContext } from '../../context/CartContext';
 import AddToCartIcon from '../AddtoCartIcon.js/AddToCartIcon';
 
 
-export default function ProductCard({nombre,img1,precio,id, descuento = 0, stock}) {
+export default function ProductCard({nombre,img1,precio,id, descuento = 0, stock, tamanios, conTamanios}) {
   const useCart = () => {
     return useContext(CartContext)
   }
+  let size = 0
+  if(conTamanios){
+    precio = tamanios[0].price
+    size = tamanios[0].size
+  }
+  
   const { addItem, quantity, formatearMoneda, calcularDescuento} = useCart();
   const handleOnAdd = (quantity) => {
     const productToAdd = {
-        id, nombre, precio, quantity, img1, descuento, stock
+        id, nombre, precio, quantity, img1, descuento, stock, tamanios, size
     }
     addItem(productToAdd)
   } 

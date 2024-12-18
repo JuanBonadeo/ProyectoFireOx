@@ -28,43 +28,45 @@ export const CartProvider = ({ children }) => {
     return cart.some(prod => prod.id === id)
   }
 
-  const addItem = (productToAdd) => {
-    const { id, nombre, precio, quantity, img1, descuento, stock } = productToAdd;
+const addItem = (productToAdd) => {
+  const { id, nombre, precio, quantity, img1, descuento, stock, size, conTamanios } = productToAdd;
 
-    // Comprobar si el producto ya está en el carrito
-    const existingProductIndex = cart.findIndex(prod => prod.id === id);
+  // Comprobar si el producto con el tamaño específico ya está en el carrito
+  const existingProductIndex = cart.findIndex(prod => prod.id === id && prod.size === size);
 
-    if (existingProductIndex !== -1) {
-      // Si el producto ya está en el carrito, actualizar la cantidad si es menor que 10
-      const updatedCart = cart.map((prod, index) => {
-        if (index === existingProductIndex && prod.quantity < 10) {
-          return {
-            ...prod,
-            quantity: prod.quantity + 1
-          };
-        }
-        return prod;
-      });
+  if (existingProductIndex !== -1) {
+    // Si el producto ya está en el carrito, actualizar la cantidad si es menor que 10
+    const updatedCart = cart.map((prod, index) => {
+      if (index === existingProductIndex && prod.quantity < 10) {
+        return {
+          ...prod,
+          quantity: prod.quantity + quantity  // Se puede sumar la cantidad de producto que se agrega
+        };
+      }
+      return prod;
+    });
 
-      setCart(updatedCart);
+    setCart(updatedCart);
 
-      // Mostrar el toast después de actualizar el carrito
-      Toast.fire({
-        icon: 'success',
-        title: `${nombre} agregado al carrito`
-      });
-    } else {
-      setCart(prev => [...prev, { id, nombre, precio, quantity, img1, descuento, stock }]);
+    // Mostrar el toast después de actualizar el carrito
+    Toast.fire({
+      icon: 'success',
+      title: `${nombre} ${conTamanios ? (size) : ''} agregado al carrito`
+    });
+  } else {
+    // Si no existe, agregar el producto con su tamaño
+    setCart(prev => [...prev, { id, nombre, precio, quantity, img1, descuento, stock, size }]);
 
-      Toast.fire({
-        icon: 'success',
-        title: `${nombre} ha sido agregado al carrito`
-      });
-    }
-  };
+    Toast.fire({
+      icon: 'success',
+      title: `${nombre} (${size}) ha sido agregado al carrito`
+    });
+  }
+};
 
-  const removeItem = (id) => {
-    const updatedCart = cart.filter(prod => !(prod.id === id));
+
+  const removeItem = (id, size) => {
+    const updatedCart = cart.filter(prod => !(prod.id === id && prod.size === size));
     setCart(updatedCart);
     Toast.fire({
       icon: "info",
@@ -72,28 +74,34 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const updateQuantity = (id, addedQuantity) => {
+  const updateQuantity = (id, addedQuantity, size) => {
     const updatedCart = cart.map(prod => {
-      if (prod.id === id && prod.quantity + addedQuantity <= 10) {
+      // Si el producto tiene tamaño y coincide el id y el tamaño, o si no tiene tamaño y solo coincide el id
+      if ((prod.id === id && prod.size === size) || (prod.id === id && !prod.size)) {
         const newQuantity = prod.quantity + addedQuantity;
+  
         if (newQuantity <= 0) {
+          // Si la cantidad es 0 o menos, eliminamos el producto
           Toast.fire({
             icon: "info",
-            title: `eliminado`
-          })
-          return null;
-        } else {
+            title: `Producto (${prod.size ? `${prod.size}` : 'sin tamaño'}) eliminado`
+          });
+          return null; // Marcar este producto para eliminar
+        } else if (newQuantity <= 10) {
           return {
             ...prod,
             quantity: newQuantity
           };
         }
-      } else {
-        return prod;
       }
-    }).filter(Boolean); // Remove any null values from the updatedCart array
-    setCart(updatedCart);
-  }
+      return prod; // Si no se cumplen las condiciones, no hacemos nada con este producto
+    });
+  
+    // Filtrar los productos eliminados (null) del carrito
+    const finalCart = updatedCart.filter(prod => prod !== null);
+    setCart(finalCart); // Actualizar el carrito con los productos modificados
+  };
+  
   const updateQuantitySelect = (id, newQuantity) => {
     const updatedCart = cart.map(prod => {
       if (prod.id === id && newQuantity <= 10) {
@@ -116,7 +124,7 @@ export const CartProvider = ({ children }) => {
 
     return formatoMonedaArgentina.format(cantidad);
   }
-  const calcularDescuento = (precio, descuento) => {
+  const calcularDescuento = (precio, descuento ) => {
     return formatearMoneda(precio - (precio * descuento / 100))
   }
   const getTotalQuantity = () => {
