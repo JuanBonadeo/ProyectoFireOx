@@ -97,7 +97,10 @@
     font-weight: 700;
     z-index: 22;
 }
-
+.sizeSelector{
+    display: flex;
+    gap: 1em;
+}
 
 
 

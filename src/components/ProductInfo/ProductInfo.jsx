@@ -69,7 +69,7 @@ export default function ProductInfo({ id, nombre, precio, img1, img2, img3, desc
           {tamanios.length > 0 && (
             <div className="sizeSelector">
               <h5>Seleccione un tamaño:</h5>
-              <select value={selectedSize} onChange={(e) => handleSizeChange(e.target.value)}>
+              <select className='select' value={selectedSize} onChange={(e) => handleSizeChange(e.target.value)}>
                 {tamanios.map((t, index) => (
                   <option key={index} value={t.size}>
                     {t.size} 
