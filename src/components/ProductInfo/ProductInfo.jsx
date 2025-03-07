@@ -53,7 +53,7 @@ export default function ProductInfo({ id, nombre, precio, img1, img2, img3, desc
     addItem(productToAdd);
   };
 
-  const nuevoPrecio = calcularDescuento(dynamicPrice, descuento);
+  const nuevoPrecio = calcularDescuento(dynamicPrice, descuento) ?? precio;
 
   return (
     <>
