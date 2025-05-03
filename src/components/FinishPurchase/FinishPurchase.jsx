@@ -6,103 +6,100 @@ import Swal from 'sweetalert2';
 
 
 const FinishPurchase = () => {
-    const useCart = () => {
-        return useContext(CartContext)
-    }
-    let { cart, total, calcularDescuento, formatearMoneda, clearCart2, descuentoCodigo } = useCart();
+    const useCart = () => useContext(CartContext);
+    const { cart, total, calcularDescuento, formatearMoneda, clearCart2, descuentoCodigo, totalSinDescuento } = useCart();
+
     const precioEnvio = 9000;
     const precioEnvioGratis = 30000;
+
+    const [entrega, setEntrega] = useState('envio');
+    const [pago, setPago] = useState('transferencia');
+    const [totalFinal, setTotalFinal] = useState(0);
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
-    const [entrega, setEntrega] = useState('envio');
-    const [pago, setPago] = useState('transferencia')
-    total = total - (total * descuentoCodigo);
-    let [totalFinal, setTotalFinal] = useState(total);
 
+    
+    useEffect(() => {
+        let totalConDescuento = total * (1 - descuentoCodigo);
+        let totalFinalCalculado = pago === 'transferencia' ? totalConDescuento * 0.9 : totalSinDescuento;
+
+        if (entrega === 'envio' && total < precioEnvioGratis) {
+            totalFinalCalculado += precioEnvio;
+        }
+
+        setTotalFinal(totalFinalCalculado);
+    }, [entrega, pago, total, descuentoCodigo]);
 
     const handleChange = (event) => {
-        const selectedOption = event.target.value;
-        setEntrega(selectedOption);
-        if (selectedOption === 'envio') {
-            setTotalFinal(total + precioEnvio);
-        } else {
-            setTotalFinal(total);
-        }
+        setEntrega(event.target.value);
     };
 
     const handlePagoChange = (event) => {
-        const selectedOption = event.target.value;
-        setPago(selectedOption);
-        if (selectedOption === 'transferencia') {
-            setTotalFinal(total * 0.9);
-        } else {
-            setTotalFinal(total);
-        }
-    }
+        setPago(event.target.value);
+    };
+
+    
+
 
    
     
 
     const buyCart = (e) => {
-        const nombre = document.getElementById('name').value;
-        const pago = document.getElementById('payment').value;
-        const domicilio = document.getElementById('address').value;
         e.preventDefault();
+    
+        const nombre = document.getElementById('name').value;
+        const metodoPago = document.getElementById('payment').value;
+        const domicilio = document.getElementById('address').value;
+    
         Swal.fire({
             title: 'Confirmar compra',
-            text: '¿Estás seguro de que deseas realizar la compra? Seras redirigido a WhatsApp para completar la compra.',
+            text: '¿Estás seguro de que deseas realizar la compra? Serás redirigido a WhatsApp para completarla.',
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: 'Sí, comprar',
             cancelButtonText: 'Cancelar',
         }).then((result) => {
             if (result.isConfirmed) {
-                let mensajePedido = 'Nombre y Apellido: ' + nombre + '\n';
-                mensajePedido += 'Metodo de Pago: ' + pago + '\n';
-                mensajePedido += 'Metodo de Entrega: ' + entrega + '\n';
+                let mensajePedido = `Nombre y Apellido: ${nombre}\n`;
+                mensajePedido += `Método de Pago: ${metodoPago}\n`;
+                mensajePedido += `Método de Entrega: ${entrega}\n`;
+    
                 if (entrega === 'envio') {
-                    mensajePedido += 'Domicilio: ' + domicilio + '\n';
-                    mensajePedido += 'Costo de envio: ' + formatearMoneda(precioEnvio) + ' (envio gratis a partir de 30000)\n';
-                    totalFinal = total + precioEnvio;
+                    mensajePedido += `Domicilio: ${domicilio}\n`;
+                    if (total < precioEnvioGratis) {
+                        mensajePedido += `Costo de envío: ${formatearMoneda(precioEnvio)} (envío gratis a partir de ${formatearMoneda(precioEnvioGratis)})\n`;
+                    } else {
+                        mensajePedido += `Costo de envío: GRATIS\n`;
+                    }
                 }
-                mensajePedido += 'pedido:\n';
+    
+                mensajePedido += 'Pedido:\n';
                 cart.forEach((prod) => {
-                    mensajePedido += `*${prod.nombre} - ${prod.size ? prod.size : ''}*  Cantidad: *${prod.quantity}* Precio: *${calcularDescuento(prod.precio * prod.quantity, prod.descuento)}*\n`;
+                    const precioFinal = metodoPago === 'transferencia'
+                        ? calcularDescuento(prod.precio * prod.quantity, prod.descuento)
+                        : prod.precio * prod.quantity;
+    
+                    mensajePedido += `*${prod.nombre}${prod.size ? ' - ' + prod.size : ''}*  Cantidad: *${prod.quantity}* Precio: *${formatearMoneda(precioFinal)}*\n`;
                 });
-                if (entrega === 'envio' && total >= precioEnvioGratis) {
-                    mensajePedido += `\nTotal Con envio gratis: *${formatearMoneda(total)}*`;
-                } else if (entrega === 'envio' && total < precioEnvioGratis) {
-                    mensajePedido += `\nTotal con ${precioEnvio} de envio: *${formatearMoneda(totalFinal)}*`;
-                } else mensajePedido += `\nTotal: *${formatearMoneda(total)}*`;
-
-                // Completar con el número de WhatsApp
+    
+                mensajePedido += `\nTotal: *${formatearMoneda(totalFinal)}*`;
+    
                 const numeroWhatsApp = '5493471588965';
-
-                function esDispositivoMovil() {
-                    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                }
-
-                // Construir la URL de WhatsApp
-                let urlWhatsApp = '';
-
-                if (esDispositivoMovil()) {
-                    // Si es un dispositivo móvil, abrir en la aplicación de WhatsApp
-                    urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(mensajePedido)}`;
-                } else {
-                    // Si es una computadora, abrir en WhatsApp Web
-                    urlWhatsApp = `https://web.whatsapp.com/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(mensajePedido)}`;
-                }
-
-                // Abrir la ventana de chat
+                const urlBase = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+                    ? 'https://api.whatsapp.com'
+                    : 'https://web.whatsapp.com';
+    
+                const urlWhatsApp = `${urlBase}/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(mensajePedido)}`;
+    
                 window.open(urlWhatsApp, '_blank');
                 clearCart2();
-                const redirectHome = () => {
-                    window.location.href = "/#/gracias";
-                };
-                redirectHome();
+                window.location.href = "/#/gracias";
             }
         });
+    };
+    
 
     }
     return (
@@ -144,6 +141,6 @@ const FinishPurchase = () => {
             
         </div>
     );
-}
+
 
 export default FinishPurchase;

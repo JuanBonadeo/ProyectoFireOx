@@ -40,7 +40,7 @@ const addItem = (productToAdd) => {
       if (index === existingProductIndex && prod.quantity < 10) {
         return {
           ...prod,
-          quantity: prod.quantity + quantity  // Se puede sumar la cantidad de producto que se agrega
+          quantity: prod.quantity + quantity  
         };
       }
       return prod;
@@ -48,7 +48,7 @@ const addItem = (productToAdd) => {
 
     setCart(updatedCart);
 
-    // Mostrar el toast después de actualizar el carrito
+    
     Toast.fire({
       icon: 'success',
       title: `${nombre} ${conTamanios ? (size) : ''} agregado al carrito`
@@ -152,6 +152,18 @@ const addItem = (productToAdd) => {
 
   let total = getTotal()
 
+  const getTotalSinDescuento = () => {
+    let totalSinDescuento = 0
+
+    cart.forEach(prod => {
+      let totP = prod.precio * prod.quantity
+      totalSinDescuento += totP
+    })
+
+    return totalSinDescuento
+  }
+  let totalSinDescuento = getTotalSinDescuento()
+
 
   const clearCart = () => {
 
@@ -177,7 +189,7 @@ const addItem = (productToAdd) => {
 
 
   return (
-    <CartContext.Provider value={{ cart, addItem, totalQuantity, removeItem, isInCart, total, clearCart, updateQuantity, updateQuantitySelect, formatearMoneda, calcularDescuento, clearCart2, descuentoCodigo, setDescuentoCodigo}}>
+    <CartContext.Provider value={{ cart, addItem, totalQuantity, removeItem, isInCart, total, clearCart, updateQuantity, updateQuantitySelect, formatearMoneda, calcularDescuento, clearCart2, descuentoCodigo, setDescuentoCodigo,totalSinDescuento}}>
       {children}
     </CartContext.Provider>
   )
