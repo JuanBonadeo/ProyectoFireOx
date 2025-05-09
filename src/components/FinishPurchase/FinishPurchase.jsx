@@ -21,38 +21,28 @@ const FinishPurchase = () => {
     }, []);
 
     
-    useEffect(() => {
-        let totalConDescuento = total * (1 - descuentoCodigo);
-        let totalFinalCalculado = pago === 'transferencia' ? totalConDescuento * 0.9 : totalSinDescuento;
-
-        if (entrega === 'envio' && total < precioEnvioGratis) {
-            totalFinalCalculado += precioEnvio;
-        }
-
-        setTotalFinal(totalFinalCalculado);
-    }, [entrega, pago, total, descuentoCodigo]);
-
-    const handleChange = (event) => {
+    
+    const handleEntregaChange = (event) => {
         setEntrega(event.target.value);
     };
-
+    
     const handlePagoChange = (event) => {
         setPago(event.target.value);
     };
-
     
-
-
-   
     
-
+    
+    
+    
+    
+    
     const buyCart = (e) => {
         e.preventDefault();
-    
+        
         const nombre = document.getElementById('name').value;
         const metodoPago = document.getElementById('payment').value;
         const domicilio = document.getElementById('address').value;
-    
+        
         Swal.fire({
             title: 'Confirmar compra',
             text: '¿Estás seguro de que deseas realizar la compra? Serás redirigido a WhatsApp para completarla.',
@@ -65,7 +55,7 @@ const FinishPurchase = () => {
                 let mensajePedido = `Nombre y Apellido: ${nombre}\n`;
                 mensajePedido += `Método de Pago: ${metodoPago}\n`;
                 mensajePedido += `Método de Entrega: ${entrega}\n`;
-    
+                
                 if (entrega === 'envio') {
                     mensajePedido += `Domicilio: ${domicilio}\n`;
                     if (total < precioEnvioGratis) {
@@ -74,25 +64,25 @@ const FinishPurchase = () => {
                         mensajePedido += `Costo de envío: GRATIS\n`;
                     }
                 }
-    
+                
                 mensajePedido += 'Pedido:\n';
                 cart.forEach((prod) => {
                     const precioFinal = metodoPago === 'transferencia'
-                        ? calcularDescuento(prod.precio * prod.quantity, prod.descuento)
-                        : prod.precio * prod.quantity;
-    
+                    ? calcularDescuento(prod.precio * prod.quantity, prod.descuento)
+                    : prod.precio * prod.quantity;
+                    
                     mensajePedido += `*${prod.nombre}${prod.size ? ' - ' + prod.size : ''}*  Cantidad: *${prod.quantity}* Precio: *${formatearMoneda(precioFinal)}*\n`;
                 });
-    
+                
                 mensajePedido += `\nTotal: *${formatearMoneda(totalFinal)}*`;
-    
+                
                 const numeroWhatsApp = '5493471588965';
                 const urlBase = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-                    ? 'https://api.whatsapp.com'
-                    : 'https://web.whatsapp.com';
+                ? 'https://api.whatsapp.com'
+                : 'https://web.whatsapp.com';
     
                 const urlWhatsApp = `${urlBase}/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(mensajePedido)}`;
-    
+                
                 window.open(urlWhatsApp, '_blank');
                 clearCart2();
                 window.location.href = "/#/gracias";
@@ -100,10 +90,20 @@ const FinishPurchase = () => {
         });
     };
     
+    useEffect(() => {
+        let totalConDescuento = total * (1 - descuentoCodigo);
+        let totalFinalCalculado = pago === 'transferencia' ? totalConDescuento * 0.9 : totalSinDescuento;
+    
+        if (entrega === 'envio' && total < precioEnvioGratis) {
+            totalFinalCalculado += precioEnvio;
+        }
+    
+        setTotalFinal(totalFinalCalculado);
+    }, [entrega, pago, total, descuentoCodigo]);
+    
 
-    }
-    return (
-        <div className="containerP">
+return (
+    <div className="containerP">
             <h1>Completa tu Pedido</h1>
             <p>Tenemos 10% de descuento pagando con transferencia y envio gratis a partir de $30.000</p>
             <form onSubmit={(e) => { e.preventDefault(); buyCart(e); }}>
@@ -114,7 +114,7 @@ const FinishPurchase = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor='payment'>Método de Pago:</label>
-                        <select name="payment" id="payment" required value={pago} onChange={handlePagoChange}>
+                        <select name="payment" id="payment" required value={pago} onChange={handlePagoChange} >
                             <option value="transferencia">Transf. Bancaria</option>
                             <option value="efectivo">Efectivo</option>
                             <option value="tarjeta">Tarjeta</option>
@@ -122,7 +122,7 @@ const FinishPurchase = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor='entrega'>Método de Entrega</label>
-                        <select name="entrega" id="entrega" required value={entrega} onChange={handleChange} >
+                        <select name="entrega" id="entrega" required value={entrega} onChange={handleEntregaChange} >
                             <option value="envio">Envío a Domicilio</option>
                             <option value="retiro">Retiro en Local</option>
                         </select>
@@ -142,5 +142,5 @@ const FinishPurchase = () => {
         </div>
     );
 
-
+}
 export default FinishPurchase;
