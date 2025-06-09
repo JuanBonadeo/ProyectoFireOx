@@ -30,7 +30,15 @@ const FinishPurchase = () => {
         setPago(event.target.value);
     };
     
-    
+    const calcularTotal = () => {
+        for (const prod of cart) {
+            const precioFinal = pago === 'transferencia'
+                ? calcularDescuento(prod.precio * prod.quantity, prod.descuento)
+                : prod.precio * prod.quantity;
+            total += precioFinal;
+        }
+        return total;
+    }
     
     
     
@@ -91,6 +99,7 @@ const FinishPurchase = () => {
     };
     
     useEffect(() => {
+        let total = calcularTotal();
         let totalConDescuento = total * (1 - descuentoCodigo);
         let totalFinalCalculado = pago === 'transferencia' ? totalConDescuento * 0.9 : totalSinDescuento;
     
